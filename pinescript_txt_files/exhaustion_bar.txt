@@ -1,0 +1,121 @@
+// This Pine Script™ code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © maricelineradovanquerubin
+
+//@version=5
+indicator("My script", overlay=true, precision=4)
+import PineCoders/VisibleChart/4
+
+
+const float candle_size_check = 0.05
+
+candle_high = high
+candle_low = low
+candle_open = open
+candle_close = close
+candle_midpoint = (high + low) / 2
+candle_size = high - low
+candle_body = math.abs(candle_open - candle_close)
+
+bool bigbar_present = false
+if candle_size / candle_midpoint >= candle_size_check
+    bigbar_present := true
+    label.new(bar_index, high, text = "BB", style=label.style_label_down, textcolor = color.white, size = size.small)
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
+if bigbar_present == true and candle_close > candle_open
+    upperwick_upperboundary = high
+    upperwick_lowerboundary = candle_close
+    lowerwick_lowerboundary = low
+    lowerwick_upperboundary = candle_open
+
+    bool noupperwick = false
+    if upperwick_upperboundary == upperwick_lowerboundary
+        noupperwick := true
+        upper_wick_size = 0
+    else 
+        upper_wick_size = upperwick_upperboundary - upperwick_lowerboundary    
+
+        if upper_wick_size >= candle_body
+            label.new(bar_index, high + 0.03*high , text = "LRG_U_W", style=label.style_label_down, textcolor = color.white)
+     
+
+    bool nolowerwick = false
+    if lowerwick_lowerboundary == lowerwick_upperboundary
+        nolowerwick := true
+        lower_wick_size = 0
+    else
+        lower_wick_size = lowerwick_upperboundary - lowerwick_lowerboundary
+
+        if lower_wick_size >= candle_body
+            label.new(bar_index, high + 0.05*high , text = "LRG_L_W", style=label.style_label_down, textcolor = color.white)
+    
+////////////////////////////////////////////////////////////////////////////////////////////
+
+if bigbar_present == true and candle_close < candle_open
+    upperwick_upperboundary = high
+    upperwick_lowerboundary = candle_open
+    lowerwick_lowerboundary = low
+    lowerwick_upperboundary = candle_close
+
+    bool noupperwick = false
+    if upperwick_upperboundary == upperwick_lowerboundary
+        noupperwick := true
+        if noupperwick == true
+            upper_wick_size = 0
+    
+    else
+        upper_wick_size = upperwick_upperboundary - upperwick_lowerboundary
+
+        if upper_wick_size >= candle_body
+            label.new(bar_index, high + 0.03*high , text = "LRG_U_W", style=label.style_label_down, textcolor = color.white)
+
+    bool nolowerwick = false
+    if lowerwick_lowerboundary == lowerwick_upperboundary
+        nolowerwick := true
+        if nolowerwick == true
+            lower_wick_size = 0
+
+    else
+        lower_wick_size = lowerwick_upperboundary - lowerwick_lowerboundary
+
+        if lower_wick_size >= candle_body
+            label.new(bar_index, high + 0.05*high , text = "LRG_L_W", style=label.style_label_down, textcolor = color.white)
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
+if bigbar_present == true and candle_close == candle_open
+    dojipoint = candle_close
+    upperwick_upperboundary = high
+    upperwick_lowerboundary = dojipoint
+    lowerwick_lowerboundary = low
+    lowerwick_upperboundary = dojipoint
+
+    bool noupperwick = false
+    if upperwick_upperboundary == upperwick_lowerboundary
+        
+        noupperwick := true
+        if noupperwick == true
+            upper_wick_size = 0
+
+    else 
+        upper_wick_size = upperwick_upperboundary - upperwick_lowerboundary
+
+        if upper_wick_size >= candle_body
+            label.new(bar_index, high + 0.03*high , text = "LRG_U_W", style=label.style_label_down, textcolor = color.white)
+
+    bool nolowerwick = false
+    if lowerwick_lowerboundary == lowerwick_upperboundary
+        nolowerwick := true
+        if nolowerwick == true
+            lower_wick_size = 0
+    else
+        lower_wick_size = lowerwick_upperboundary - lowerwick_lowerboundary
+
+        if lower_wick_size >= candle_body
+            label.new(bar_index, high + 0.05*high , text = "LRG_L_W", style=label.style_label_down, textcolor = color.white)
+    
+////////////////////////////////////////////////////////////////////////////////////////////
